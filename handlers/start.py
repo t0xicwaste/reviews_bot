@@ -62,16 +62,15 @@ async def input_next_review(event: CallbackQuery | Message, state: FSMContext):
     user_data = await state.get_data()
 
     formatted_review = f"""
-    Ваш отзыв:
-    Оценка встречи: {GRADE.get(user_data.get('grade'), 'Не указана')}
-    Пригласили бы друзей: {GUEST.get(user_data.get('guest'), 'Не указано')}
-    Тема встречи: {THEME.get(user_data.get('theme'), 'Не указана')}
-    Следующая тема: {NEXT_THEME.get(user_data.get('next_theme'), 'Не указана')}
-    Дополнительный отзыв: {NEXT_REVIEW.get(user_data.get('next_review'), 'Не указан')}
-    """
+Ваш отзыв:
+- Оценка встречи: {GRADE.get(user_data.get('grade'), 'Не указано')}
+- Пригласили бы друзей: {GUEST.get(user_data.get('guest'), 'Не указано')}
+- Тема встречи: {THEME.get(user_data.get('theme'), 'Не указано')}
+- Следующая тема: {user_data.get('next_theme', 'Не указано')}
+- Дополнительный отзыв: {user_data.get('next_review', 'Не указано')}
+"""
 
     # Отправка итогового сообщения
     await (event.message if isinstance(event, CallbackQuery) else event).answer(text=formatted_review)
-    # await (event.message if isinstance(event, CallbackQuery) else event).answer(text='Спасибо за ваш отзыв!\n#ямыменяться')
 
     await state.clear()
